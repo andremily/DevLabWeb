@@ -1,0 +1,55 @@
+﻿
+using Microsoft.AspNetCore.Mvc;
+using Models;
+using System.Text.Json;
+
+namespace DevLabFront.Server.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class InicioController : Controller
+    {
+        public IConfiguration _configuration { get; set; }
+       public HttpClient httpClient { get; set; } = new HttpClient();
+        public InicioController(IConfiguration configuration) {
+        
+        _configuration = configuration;
+        }
+
+        [HttpGet ("ObtenerUrl")]
+        public string ObtenerUrl()
+        {
+            var url = _configuration.GetSection("UrlApi").Value;
+            return url;
+        }
+
+        [HttpPost("ObtenerClientesAsync")]
+        public async Task<List<ClientesModel>> ObtenerClientesAsync()
+        {
+            string responseClientes;
+
+            try
+            {
+
+                var baseAddressApi = _configuration.GetSection("UrlApi").Value;
+                var request = JsonContent.Create(string.Empty);
+                var response = await httpClient.PostAsync($"{baseAddressApi}Factura/ConsultarClientes", request);
+                if (response.IsSuccessStatusCode)
+                {
+                    responseClientes = await response.Content.ReadAsStringAsync();
+                    
+                    return JsonSerializer.Deserialize<List<ClientesModel>>(responseClientes)!; 
+                }
+                else
+                {
+                    responseClientes = $"Error: {response.StatusCode} - {response.ReasonPhrase}";
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                responseClientes = $"Error: {ex.Message}";
+            }
+            return new();
+        }
+    }
+}

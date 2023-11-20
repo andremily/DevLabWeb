@@ -1,0 +1,26 @@
+﻿@page "/"
+@using MatBlazor
+@using Models
+@inject HttpClient Http
+<PageTitle>Factura</PageTitle>
+
+<h1>Creación de Factura</h1>
+
+<div class="content-factura">
+     <div class="btn-add">
+      <span>Nueva Factura </span> <MatButton Unelevated="true"  Icon="add" OnClick="@AdicionarNuevaFactura"> Nuevo </MatButton>
+    </div>
+   
+    <div class="datos-iniciales" >
+        <div class="idcliente">
+  <MatSelectValue Value="@Factura.IdCliente" Items="@ListaClientes" ValueSelector="@(i=>i.Id)">
+        <ItemTemplate>
+                <span>@context.RazonSocial</span>
+            </ItemTemplate>
+  </MatSelectValue>
+        </div>
+        <div>
+             <MatTextField @bind-Value="@Factura.NumeroFactura" Label="Número Factura" Outlined="true"></MatTextField>
+        </div>
+    </div>
+</div>
