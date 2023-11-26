@@ -16,6 +16,9 @@ namespace DevLabFront.Client.Pages
 
         private DetalleFacturaModel Detalle = new DetalleFacturaModel();
         [Inject] public HttpClient httpClient { get; set; } = new HttpClient();
+        public decimal SubTotal { get; set; }
+        public decimal Iva { get; set; }
+        public decimal Total { get; set; }
         protected override async Task OnInitializedAsync()
         {
             BaseAddressApi = await Http.GetStringAsync("Inicio/ObtenerUrl");
@@ -92,8 +95,13 @@ namespace DevLabFront.Client.Pages
 
         public void GuardarProducto()
         {
-            //ProductosModel productoSeleccionado = ListaProductos.FirstOrDefault(x=>x.Id== Detalle.IdProducto)!;
-            
+            ProductosModel productoSeleccionado = ListaProductos.FirstOrDefault(x=>x.Id== Detalle.IdProducto)!;
+            Detalle.Imagen = productoSeleccionado.ImagenProducto!;
+            Detalle.NombreProducto = productoSeleccionado.NombreProducto!;
+            Detalle.PrecioUnitarioProducto = productoSeleccionado.PrecioUnitario;
+            Detalle.SubtotalProducto = productoSeleccionado.PrecioUnitario * Detalle.CantidadDeProducto;
+            SubTotal += Detalle.SubtotalProducto;
+            Iva = (SubTotal * 19) / 100;
             DetalleFactura.Add(Detalle);
         }
     }

@@ -30,7 +30,7 @@
         </div>
     </div>
     <div class="">
-        <MatTable Items="@DetalleFactura" AllowSelection="true" Striped="true">
+        <MatTable Items="@DetalleFactura" AllowSelection="true" Striped="true" RowClass="grid-productos">
             <MatTableHeader>
                 <th>Acciones</th>
                 <th>Producto</th>
@@ -40,18 +40,35 @@
                 <th>Totales</th>
             </MatTableHeader>
             <MatTableRow>
-                <td>
-                    <div class="dvButton">
-                        <MatButton Unelevated="true" Type="submit" Icon="delete" Name="Eliminar" OnClick="@(()=>Eliminar(@context))"></MatButton>
-                    </div>
-                </td>
-                <td>@context.NombreProducto</td>
-                <td>@context.PrecioUnitarioProducto</td>
-                 <td>@context.CantidadDeProducto</td>
-                <td><img src="@context.Imagen" class="imgProducto" /></td>
-                <td>@context.SubtotalProducto</td>
+                @if (DetalleFactura.Count > 0)
+                {
+                    <td>
+                        <div class="dvButton">
+                            <MatButton Unelevated="true" Type="submit" Icon="delete" Name="Eliminar" OnClick="@(()=>Eliminar(@context))"></MatButton>
+                        </div>
+                    </td>
+                    <td>@context.NombreProducto</td>
+                    <td>@context.PrecioUnitarioProducto</td>
+                    <td>@context.CantidadDeProducto</td>
+                    <td><img src="@context.Imagen" class="imgProducto" /></td>
+                    <td>@context.SubtotalProducto</td>
+
+                }
+
             </MatTableRow>
         </MatTable>
+    </div>
+    <div class="subtotales">
+        <div>
+            <span>SubTotal</span>
+        </div>
+        <div>
+            <span>Iva 19%</span>
+        </div>
+        <div>
+            <span>Total</span>
+        </div>
+
     </div>
 </div>
 <MatDialog @bind-IsOpen="@AdicionProductos" Class="modal-add">
