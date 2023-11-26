@@ -19,15 +19,15 @@ namespace DevLabFront.Client.Pages
         public decimal SubTotal { get; set; }
         public decimal Impuesto { get; set; }
         public decimal Total { get; set; }
-        public List<string> Mensaje { get; set; }
+        public List<string> Mensaje { get; set; } = new();
         public bool AbrirMensaje { get; set; } = false;
+        public string? Titulo { get; set; }
         protected override async Task OnInitializedAsync()
         {
             BaseAddressApi = await Http.GetStringAsync("Inicio/ObtenerUrl");
             await ObtenerClientes();
 
         }
-
         private async Task ObtenerClientes()
         {
             try
@@ -75,7 +75,8 @@ namespace DevLabFront.Client.Pages
         public void AdicionarNuevaFactura()
         {
             Factura = new FacturaModel();
-            ListaProductos = new List<ProductosModel>();
+            DetalleFactura = new();
+            Detalle = new();
         }
         public void GuardarFactura(){
            bool valido = ValidarCampos();
@@ -92,6 +93,7 @@ namespace DevLabFront.Client.Pages
 
         private bool ValidarCampos()
         {
+            Titulo = "Error";
             var valido = true;
             Mensaje = new();
            if (Factura.IdCliente == 0)

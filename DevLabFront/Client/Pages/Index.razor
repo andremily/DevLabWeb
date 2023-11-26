@@ -117,15 +117,16 @@
 </MatDialog>
 <MatDialog @bind-IsOpen="@AbrirMensaje" Class="modal-add">
     <MatDialogTitle>
-        <label>Adicionar Productos</label>
+        <label>@Titulo</label>
     </MatDialogTitle>
     <MatDialogContent>
         @foreach(var item in Mensaje)
         {
-            <p>item</p>
-            
+            <p>@item</p>
         }
-
-
+        
     </MatDialogContent>
+    <MatDialogActions>
+         <MatButton Unelevated="true" Type="button" OnClick="@(e => { AbrirMensaje = false; })" Icon="cancel">Cerrar</MatButton>
+    </MatDialogActions>
 </MatDialog>
