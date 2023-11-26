@@ -35,9 +35,9 @@ namespace DevLabWebApi.Services
                             {
                                 Id = reader.GetInt32(0),
                                 NombreProducto = reader.GetString(1),
-                                ImagenProducto = reader.IsDBNull(2) ? null : (byte[])reader["ImagenProducto"],
-                                PrecioUnitario = reader.GetDecimal(3),
-                                ext = reader.GetString(4)
+                                PrecioUnitario = reader.GetDecimal(2),
+                                ext = reader.GetString(3),
+                                ImagenProducto = reader.IsDBNull(4) ? null : reader.GetString(4),
                             };
 
                             productos.Add(producto);

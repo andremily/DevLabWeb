@@ -2,25 +2,90 @@
 @using MatBlazor
 @using Models
 @inject HttpClient Http
+@using System.Collections.Generic
 <PageTitle>Factura</PageTitle>
 
 <h1>Creación de Factura</h1>
 
 <div class="content-factura">
-     <div class="btn-add">
-      <span>Nueva Factura </span> <MatButton Unelevated="true"  Icon="add" OnClick="@AdicionarNuevaFactura"> Nuevo </MatButton>
+    <div class="btn-add">
+        <span>Nueva Factura </span> <MatButton Unelevated="true" Icon="add" OnClick="@AdicionarNuevaFactura"> Nuevo </MatButton>
     </div>
-   
-    <div class="datos-iniciales" >
+
+    <div class="datos-iniciales">
         <div class="idcliente">
-  <MatSelectValue Value="@Factura.IdCliente" Items="@ListaClientes" ValueSelector="@(i=>i.Id)">
-        <ItemTemplate>
-                <span>@context.RazonSocial</span>
-            </ItemTemplate>
-  </MatSelectValue>
+            <MatSelectValue @bind-Value="@Factura.IdCliente" Items="@ListaClientes" ValueSelector="@(i=>i.Id)" Label="Cliente">
+                <ItemTemplate>
+                    <span>@context?.RazonSocial</span>
+                </ItemTemplate>
+            </MatSelectValue>
         </div>
         <div>
-             <MatTextField @bind-Value="@Factura.NumeroFactura" Label="Número Factura" Outlined="true"></MatTextField>
+            <MatTextField @bind-Value="@Factura.NumeroFactura" Label="Número Factura" Outlined="true"></MatTextField>
         </div>
     </div>
+    <div class="datos-iniciales">
+        <div class="btn-add">
+            <MatButton Unelevated="true" Icon="add" OnClick="@AdicionarProductosAsync"> Adicionar Productos </MatButton>
+        </div>
+    </div>
+    <div class="">
+        <MatTable Items="@DetalleFactura" AllowSelection="true" Striped="true">
+            <MatTableHeader>
+                <th>Acciones</th>
+                <th>Producto</th>
+                <th>Precio Unitario</th>
+                <th>Cantidad</th>
+                <th>Imagen </th>
+                <th>Totales</th>
+            </MatTableHeader>
+            <MatTableRow>
+                <td>
+                    <div class="dvButton">
+                        <MatButton Unelevated="true" Type="submit" Icon="delete" Name="Eliminar" OnClick="@(()=>Eliminar(@context))"></MatButton>
+                    </div>
+                </td>
+                <td>@context.NombreProducto</td>
+                <td>@context.PrecioUnitarioProducto</td>
+                 <td>@context.CantidadDeProducto</td>
+                <td><img src="@context.Imagen" class="imgProducto" /></td>
+                <td>@context.SubtotalProducto</td>
+            </MatTableRow>
+        </MatTable>
+    </div>
 </div>
+<MatDialog @bind-IsOpen="@AdicionProductos" Class="modal-add">
+    <MatDialogTitle>
+        <label>Adicionar Productos</label>
+    </MatDialogTitle>
+    <MatDialogContent>
+
+        <EditForm Model="@Detalle" OnValidSubmit="GuardarProducto">
+            <DataAnnotationsValidator />
+            <div class="form-group">
+
+                @if (Detalle != null && ListaProductos != null)
+                {
+                    <MatSelectValue @bind-Value="@Detalle.IdProducto" Items="@ListaProductos" ValueSelector="@(i => i.Id)" Label="Producto">
+                        <ItemTemplate Context="item">
+                            <span>@item?.NombreProducto</span>
+                        </ItemTemplate>
+                    </MatSelectValue>
+                }
+            </div>
+
+            <div class="form-group">
+                <MatTextField @bind-Value="@Detalle.CantidadDeProducto" Label="Cantidad de Producto"></MatTextField>
+                <ValidationMessage For="@(() =>Detalle.CantidadDeProducto)" />
+            </div>
+
+
+            <div class="div-button">
+                <MatDivider></MatDivider>
+                <MatButton Unelevated="true" Type="button" OnClick="@(e => { AdicionProductos = false; })" Icon="cancel">Cancelar</MatButton>
+                <MatButton Unelevated="true" Type="submit" Icon="check">Aceptar</MatButton>
+            </div>
+        </EditForm>
+
+    </MatDialogContent>
+</MatDialog>

@@ -51,5 +51,33 @@ namespace DevLabFront.Server.Controllers
             }
             return new();
         }
+        [HttpPost("ObtenerProductosAsync")]
+        public async Task<List<ProductosModel>> ObtenerProductosAsync()
+        {
+            string responseProductos;
+
+            try
+            {
+
+                var baseAddressApi = _configuration.GetSection("UrlApi").Value;
+                var request = JsonContent.Create(string.Empty);
+                var response = await httpClient.PostAsync($"{baseAddressApi}Factura/ConsultarProductos", request);
+                if (response.IsSuccessStatusCode)
+                {
+                    responseProductos = await response.Content.ReadAsStringAsync();
+
+                    return JsonSerializer.Deserialize<List<ProductosModel>>(responseProductos)!;
+                }
+                else
+                {
+                    responseProductos = $"Error: {response.StatusCode} - {response.ReasonPhrase}";
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                responseProductos = $"Error: {ex.Message}";
+            }
+            return new();
+        }
     }
 }
