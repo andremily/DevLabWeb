@@ -58,17 +58,26 @@
             </MatTableRow>
         </MatTable>
     </div>
-    <div class="subtotales">
+    <div class="datos-totales">
         <div>
-            <span>SubTotal</span>
         </div>
-        <div>
-            <span>Iva 19%</span>
-        </div>
-        <div>
-            <span>Total</span>
-        </div>
-
+            <div class="totales">
+                <div class="subtotal">
+                    <div class="titulo">SubTotal</div>
+                    <div>@SubTotal</div>
+                </div>
+                <div class="impuesto">
+                    <div class="titulo">Impuesto 19%</div>
+                    <div>@Impuesto</div>
+                </div>
+                <div class="total">
+                    <div class="titulo">Total</div>
+                    <div>@Total</div>
+                </div>
+            </div>
+    </div>
+      <div class="datos-totales">
+       <MatButton Unelevated="true" Icon="add" OnClick="@GuardarFactura"> Guardar </MatButton>
     </div>
 </div>
 <MatDialog @bind-IsOpen="@AdicionProductos" Class="modal-add">
@@ -103,6 +112,20 @@
                 <MatButton Unelevated="true" Type="submit" Icon="check">Aceptar</MatButton>
             </div>
         </EditForm>
+
+    </MatDialogContent>
+</MatDialog>
+<MatDialog @bind-IsOpen="@AbrirMensaje" Class="modal-add">
+    <MatDialogTitle>
+        <label>Adicionar Productos</label>
+    </MatDialogTitle>
+    <MatDialogContent>
+        @foreach(var item in Mensaje)
+        {
+            <p>item</p>
+            
+        }
+
 
     </MatDialogContent>
 </MatDialog>

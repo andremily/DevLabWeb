@@ -1,6 +1,7 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
+    font-size: 12px;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -69,4 +70,11 @@ a, .btn-link {
 }
 .idcliente {
     margin-right: 5px;
+}
+
+.mdc-paginator {
+    display: none;
+}
+thead{
+    width:100%
 }

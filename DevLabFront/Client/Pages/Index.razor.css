@@ -1,10 +1,53 @@
-﻿.imgProducto{
-    width:10%;
-    height:10%;
+﻿.imgProducto {
+    width: 10%;
+    height: 10%;
 }
-.form-group{
-    margin:5px;
+
+.form-group {
+    margin: 5px;
 }
-.grid-productos{
-    width:15%;
+
+.grid-productos {
+    width: 15%;
+}
+
+.mdc-paginator {
+    display: none;
+}
+
+.subtotal,
+.impuesto,
+.total {
+    display: flex;
+    padding: 0.5px;
+    border-right: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    color: #202124;
+}
+.subtotal {
+    border-top: 1px solid rgba(0,0,0,.1);
+}
+    .subtotal > div,
+    .impuesto > div,
+    .total > div {
+        color: #202124;
+        width: 50%;
+        padding: 5px;
+        border-left: 1px solid rgba(0,0,0,.1);
+    }
+
+
+.subtotal > .titulo,
+.impuesto > .titulo,
+.total > .titulo {
+    background-color: rgba(0,0,0,.08);
+}
+
+
+.datos-totales {
+    display: flex;
+    width: 100%
+}
+.datos-totales>div {
+    width: 50%
 }

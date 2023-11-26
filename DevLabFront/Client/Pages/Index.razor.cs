@@ -17,8 +17,10 @@ namespace DevLabFront.Client.Pages
         private DetalleFacturaModel Detalle = new DetalleFacturaModel();
         [Inject] public HttpClient httpClient { get; set; } = new HttpClient();
         public decimal SubTotal { get; set; }
-        public decimal Iva { get; set; }
+        public decimal Impuesto { get; set; }
         public decimal Total { get; set; }
+        public List<string> Mensaje { get; set; }
+        public bool AbrirMensaje { get; set; } = false;
         protected override async Task OnInitializedAsync()
         {
             BaseAddressApi = await Http.GetStringAsync("Inicio/ObtenerUrl");
@@ -75,6 +77,40 @@ namespace DevLabFront.Client.Pages
             Factura = new FacturaModel();
             ListaProductos = new List<ProductosModel>();
         }
+        public void GuardarFactura(){
+           bool valido = ValidarCampos();
+            if (valido)
+            {
+                //enviar a guardar
+            }
+            else
+            {
+                AbrirMensaje = true;
+                StateHasChanged();
+            }
+        }
+
+        private bool ValidarCampos()
+        {
+            var valido = true;
+            Mensaje = new();
+           if (Factura.IdCliente == 0)
+            {
+                Mensaje.Add("Debe seleccionar un cliente.");
+                valido = false;
+            }
+            if (Factura.NumeroFactura == 0)
+            {
+                Mensaje.Add("Debe digitar número de factura");
+                valido = false;
+            }
+            if (DetalleFactura.Count == 0)
+            {
+                Mensaje.Add("Debe adicionar los productos");
+                valido = false;
+            }
+            return valido;
+        }
 
         public async Task AdicionarProductosAsync()
         {
@@ -84,13 +120,14 @@ namespace DevLabFront.Client.Pages
             StateHasChanged();
 
         }
-        private void SeleccionProducto()
-        {
-
-        }
         public void Eliminar(DetalleFacturaModel detalle)
         {
+            SubTotal -= Detalle.SubtotalProducto;
+            Impuesto = (SubTotal * 19) / 100;
+            Total = SubTotal + Impuesto;
             DetalleFactura.Remove(detalle);
+
+     
         }
 
         public void GuardarProducto()
@@ -101,8 +138,11 @@ namespace DevLabFront.Client.Pages
             Detalle.PrecioUnitarioProducto = productoSeleccionado.PrecioUnitario;
             Detalle.SubtotalProducto = productoSeleccionado.PrecioUnitario * Detalle.CantidadDeProducto;
             SubTotal += Detalle.SubtotalProducto;
-            Iva = (SubTotal * 19) / 100;
+            Impuesto = (SubTotal * 19) / 100;
+            Total = SubTotal + Impuesto;
             DetalleFactura.Add(Detalle);
+            AdicionProductos = false;
+            StateHasChanged();
         }
     }
 }
