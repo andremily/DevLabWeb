@@ -18,7 +18,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<IClientes, Clientes>();
 builder.Services.AddSingleton<IProductos, Productos>();
-
+builder.Services.AddSingleton<IFactura, Factura>();
 builder.Services.AddCors(options =>
     {
     options.AddPolicy("AllowOrigin", builder =>

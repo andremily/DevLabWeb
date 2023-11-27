@@ -78,16 +78,60 @@ namespace DevLabFront.Client.Pages
             DetalleFactura = new();
             Detalle = new();
         }
-        public void GuardarFactura(){
+        public async Task GuardarFacturaAsync(){
            bool valido = ValidarCampos();
             if (valido)
             {
-                //enviar a guardar
+                Factura.FechaEmisionFactura = DateTime.Now;
+                FacturaCompleta factura = new FacturaCompleta
+                {
+                    Factura = Factura,
+                    Detalle = DetalleFactura
+                };
+
+                try
+                {
+                    var request = JsonContent.Create(factura);
+                    var response = await Http.PostAsync("Inicio/GuardarFacturaAsync", request);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var stringResponse = await response.Content.ReadAsStringAsync();
+                        var respuesta = JsonSerializer.Deserialize<Response>(stringResponse)!;
+                        ManejoMensajes(respuesta);
+                    }
+                    else
+                    {
+                        
+                        Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
             }
             else
             {
                 AbrirMensaje = true;
                 StateHasChanged();
+            }
+        }
+
+        private void ManejoMensajes(Response respuesta)
+        {
+            if (respuesta.Resultado)
+            {
+                Titulo = "Alerta";
+                Mensaje.Add(respuesta.Mensaje);
+                AbrirMensaje = true;
+            }
+            else
+            {
+                Titulo = "Error";
+                Mensaje.Add(respuesta.Mensaje);
+                AbrirMensaje = true;
             }
         }
 
@@ -113,7 +157,6 @@ namespace DevLabFront.Client.Pages
             }
             return valido;
         }
-
         public async Task AdicionarProductosAsync()
         {
             await ObtenerProductos();
@@ -124,9 +167,10 @@ namespace DevLabFront.Client.Pages
         }
         public void Eliminar(DetalleFacturaModel detalle)
         {
-            SubTotal -= Detalle.SubtotalProducto;
-            Impuesto = (SubTotal * 19) / 100;
-            Total = SubTotal + Impuesto;
+            Factura.SubTotalFactura -= Detalle.SubtotalProducto;
+            Factura.TotalImpuesto = (Factura.SubTotalFactura * 19) / 100;
+            Factura.TotalFactura = Factura.SubTotalFactura + Factura.TotalImpuesto;
+            Factura.NumeroTotalArticulos -= Detalle.CantidadDeProducto;
             DetalleFactura.Remove(detalle);
 
      
@@ -139,9 +183,10 @@ namespace DevLabFront.Client.Pages
             Detalle.NombreProducto = productoSeleccionado.NombreProducto!;
             Detalle.PrecioUnitarioProducto = productoSeleccionado.PrecioUnitario;
             Detalle.SubtotalProducto = productoSeleccionado.PrecioUnitario * Detalle.CantidadDeProducto;
-            SubTotal += Detalle.SubtotalProducto;
-            Impuesto = (SubTotal * 19) / 100;
-            Total = SubTotal + Impuesto;
+            Factura.SubTotalFactura += Detalle.SubtotalProducto;
+            Factura.TotalImpuesto = (Factura.SubTotalFactura * 19) / 100;
+            Factura.TotalFactura = Factura.SubTotalFactura + Factura.TotalImpuesto;
+            Factura.NumeroTotalArticulos += Detalle.CantidadDeProducto;
             DetalleFactura.Add(Detalle);
             AdicionProductos = false;
             StateHasChanged();

@@ -14,7 +14,7 @@ CREATE TABLE [dbo].[TblClientes]
 )
 CREATE TABLE [dbo].[TblFacturas]
 (
-	[Id] INT NOT NULL PRIMARY KEY, 
+	[Id] INT IDENTITY(1, 1) PRIMARY KEY, 
     [FechaEmisionFactura] DATETIME NOT NULL, 
     [IdCliente] INT NOT NULL, 
     [NumeroFactura] INT NOT NULL, 
@@ -26,7 +26,7 @@ CREATE TABLE [dbo].[TblFacturas]
 )
 CREATE TABLE [dbo].[TblDetallesFactura]
 (
-	[Id] INT NOT NULL PRIMARY KEY, 
+	[Id] INT IDENTITY(1, 1) PRIMARY KEY, 
     [IdFactura] INT NOT NULL, 
     [IdProducto] INT NOT NULL, 
     [CantidadDeProducto] INT NOT NULL, 

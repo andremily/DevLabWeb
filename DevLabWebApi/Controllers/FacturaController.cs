@@ -9,13 +9,15 @@ namespace DevLabWebApi.Controllers
     [Route("[controller]")]
     public class FacturaController : Controller
     {
-        public IClientes _clientes { get; set; }
-        public IProductos _productos { get; set; }
+        private readonly IClientes _clientes;
+        private readonly IProductos _productos;
+        private readonly IFactura _factura;
 
-        public FacturaController(IClientes clientes, IProductos productos)
+        public FacturaController(IClientes clientes, IProductos productos, IFactura factura)
         {
             _clientes = clientes;
             _productos = productos;
+            _factura = factura;
         }
 
         [HttpPost ("ConsultarClientes")]
@@ -31,6 +33,19 @@ namespace DevLabWebApi.Controllers
             return productos;
         }
 
-
+        [HttpPost("GuardarFactura")]
+        public Response GuardarFactura(FacturaCompleta factura)
+        {
+            try
+            {
+                Response response = _factura.GuardarFactura(factura);
+                return response;
+            }
+            catch(Exception ex)
+            {
+                return new Response { Resultado = false, Mensaje = ex.Message };
+            }
+            
+        }
     }
 }

@@ -79,5 +79,34 @@ namespace DevLabFront.Server.Controllers
             }
             return new();
         }
+        [HttpPost("GuardarFacturaAsync")]
+        public async Task<Response> GuardarFacturaAsync(FacturaCompleta factura)
+        {
+            string responseFactura;
+
+            try
+            {
+
+                var baseAddressApi = _configuration.GetSection("UrlApi").Value;
+                var request = JsonContent.Create(factura);
+                var response = await httpClient.PostAsync($"{baseAddressApi}Factura/GuardarFactura", request);
+                if (response.IsSuccessStatusCode)
+                {
+                    responseFactura = await response.Content.ReadAsStringAsync();
+
+                    return JsonSerializer.Deserialize<Response>(responseFactura)!;
+                }
+                else
+                {
+                    responseFactura = $"Error: {response.StatusCode} - {response.ReasonPhrase}";
+                    return new Response { Resultado = false, Mensaje = responseFactura };
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                return new Response { Resultado = false, Mensaje = ex.Message };
+            }
+            
+        }
     }
 }

@@ -64,20 +64,20 @@
             <div class="totales">
                 <div class="subtotal">
                     <div class="titulo">SubTotal</div>
-                    <div>@SubTotal</div>
+                    <div>@Factura.SubTotalFactura</div>
                 </div>
                 <div class="impuesto">
                     <div class="titulo">Impuesto 19%</div>
-                    <div>@Impuesto</div>
+                    <div>@Factura.TotalImpuesto</div>
                 </div>
                 <div class="total">
                     <div class="titulo">Total</div>
-                    <div>@Total</div>
+                    <div>@Factura.TotalFactura</div>
                 </div>
             </div>
     </div>
       <div class="datos-totales">
-       <MatButton Unelevated="true" Icon="add" OnClick="@GuardarFactura"> Guardar </MatButton>
+       <MatButton Unelevated="true" Icon="add" OnClick="@GuardarFacturaAsync"> Guardar </MatButton>
     </div>
 </div>
 <MatDialog @bind-IsOpen="@AdicionProductos" Class="modal-add">
@@ -99,12 +99,14 @@
                     </MatSelectValue>
                 }
             </div>
-
             <div class="form-group">
                 <MatTextField @bind-Value="@Detalle.CantidadDeProducto" Label="Cantidad de Producto"></MatTextField>
                 <ValidationMessage For="@(() =>Detalle.CantidadDeProducto)" />
             </div>
-
+            <div class="form-group">
+                <MatTextField @bind-Value="@Detalle.Notas" Label="Nota"></MatTextField>
+                <ValidationMessage For="@(() =>Detalle.Notas)" />
+            </div>
 
             <div class="div-button">
                 <MatDivider></MatDivider>
