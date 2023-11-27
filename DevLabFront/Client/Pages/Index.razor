@@ -1,7 +1,6 @@
 ﻿@page "/"
 @using MatBlazor
 @using Models
-@inject HttpClient Http
 @using System.Collections.Generic
 <PageTitle>Factura</PageTitle>
 
@@ -80,6 +79,7 @@
        <MatButton Unelevated="true" Icon="add" OnClick="@GuardarFacturaAsync"> Guardar </MatButton>
     </div>
 </div>
+
 <MatDialog @bind-IsOpen="@AdicionProductos" Class="modal-add">
     <MatDialogTitle>
         <label>Adicionar Productos</label>
@@ -100,16 +100,16 @@
                 }
             </div>
             <div class="form-group">
-                <MatTextField @bind-Value="@Detalle.CantidadDeProducto" Label="Cantidad de Producto"></MatTextField>
+                <MatTextField @bind-Value="@Detalle!.CantidadDeProducto" Label="Cantidad de Producto"></MatTextField>
                 <ValidationMessage For="@(() =>Detalle.CantidadDeProducto)" />
             </div>
             <div class="form-group">
                 <MatTextField @bind-Value="@Detalle.Notas" Label="Nota"></MatTextField>
                 <ValidationMessage For="@(() =>Detalle.Notas)" />
             </div>
-
+            <MatDivider></MatDivider>
             <div class="div-button">
-                <MatDivider></MatDivider>
+       
                 <MatButton Unelevated="true" Type="button" OnClick="@(e => { AdicionProductos = false; })" Icon="cancel">Cancelar</MatButton>
                 <MatButton Unelevated="true" Type="submit" Icon="check">Aceptar</MatButton>
             </div>

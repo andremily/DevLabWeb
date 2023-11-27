@@ -79,6 +79,7 @@ namespace DevLabFront.Server.Controllers
             }
             return new();
         }
+
         [HttpPost("GuardarFacturaAsync")]
         public async Task<Response> GuardarFacturaAsync(FacturaCompleta factura)
         {
@@ -107,6 +108,35 @@ namespace DevLabFront.Server.Controllers
                 return new Response { Resultado = false, Mensaje = ex.Message };
             }
             
+        }
+
+        [HttpPost("ConsultaFacturaAsync")]
+        public async Task<List<FacturaModel>> ConsultaFacturaAsync(FacturaCompleta factura)
+        {
+            string responseFactura;
+
+            try
+            {
+                var baseAddressApi = _configuration.GetSection("UrlApi").Value;
+                var request = JsonContent.Create(factura);
+                var response = await httpClient.PostAsync($"{baseAddressApi}Factura/ConsultaFactura", request);
+                if (response.IsSuccessStatusCode)
+                {
+                    responseFactura = await response.Content.ReadAsStringAsync();
+                    return JsonSerializer.Deserialize<List<FacturaModel>>(responseFactura)!;
+                }
+                else
+                {
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    return new List<FacturaModel>();
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<FacturaModel>();
+            }
+
         }
     }
 }

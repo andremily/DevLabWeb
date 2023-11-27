@@ -5,6 +5,9 @@
 
 .form-group {
     margin: 5px;
+    display: contents;
+    width: 100%;
+    padding: 5%;
 }
 
 .grid-productos {
@@ -50,4 +53,12 @@
 }
 .datos-totales>div {
     width: 50%
+}
+.div-button {
+    display: flex;
+    padding: 5px;
+    justify-content: flex-end;
+}
+.div-button>button {
+  margin:5px;
 }

@@ -47,5 +47,21 @@ namespace DevLabWebApi.Controllers
             }
             
         }
+
+        [HttpPost("ConsultaFactura")]
+        public List<FacturaModel> ConsultaFactura(FiltroModel filtro)
+        {
+            try
+            {
+                List<FacturaModel> response = _factura.GetFacturaList(filtro.NumeroFactura, filtro.IdCliente);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<FacturaModel>();
+            }
+
+        }
     }
 }

@@ -1,18 +1,47 @@
 ﻿@page "/filtro"
 
-<PageTitle>Counter</PageTitle>
-
-<h1>Counter</h1>
-
-<p role="status">Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-
-@code {
-    private int currentCount = 0;
-
-    private void IncrementCount()
-    {
-        currentCount++;
-    }
-}
+<PageTitle>Busqueda Factura</PageTitle>
+<div>
+    <MatRadioGroup Value="@Filtros" TValue="string" ValueChanged="((string value)=>OnFiltrosChanged(value))">
+        <MatRadioButton Value="@("Id Cliente")" Label="Id Cliente" TValue="string"></MatRadioButton>
+        <MatRadioButton Value="@("Numero Factura")" Label="Número Factura" TValue="string">Número Factura</MatRadioButton>
+    </MatRadioGroup>
+</div>
+<div>
+    <MatTextField @bind-Value="@RequestFiltro.IdCliente" Disabled=@DesHabilitadoCliente Label="Id Cliente" Outlined="true"></MatTextField>
+    <MatTextField @bind-Value="@RequestFiltro.NumeroFactura" Disabled=@DesHabilitadoFactura Label="Número Factura" Outlined="true"></MatTextField>
+    <div class="btn">
+        <MatButton Unelevated="true" Icon="search" OnClick="@BuscarAsync">Buscar</MatButton>
+    </div>
+</div>
+<div>
+    <MatTable Items="@Facturas" AllowSelection="true" Striped="true" RowClass="grid-productos">
+        <MatTableHeader>
+            <th>Número de Factura</th>
+            <th>Fecha de Emision</th>
+            <th>Total Facturas</th>
+        </MatTableHeader>
+        <MatTableRow>
+            @if (Facturas.Count > 0)
+            {
+                <td>@context.NumeroFactura</td>
+                <td>@context.FechaEmisionFactura</td>
+                <td>@context.TotalFactura</td>
+            }
+        </MatTableRow>
+    </MatTable>
+</div>
+<MatDialog @bind-IsOpen="@AbrirMensaje" Class="modal-add">
+    <MatDialogTitle>
+        <label>@Titulo</label>
+    </MatDialogTitle>
+    <MatDialogContent>
+        @foreach (var item in Mensaje)
+        {
+            <p>@item</p>
+        }
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton Unelevated="true" Type="button" OnClick="@(e => { AbrirMensaje = false; })" Icon="cancel">Cerrar</MatButton>
+    </MatDialogActions>
+</MatDialog>

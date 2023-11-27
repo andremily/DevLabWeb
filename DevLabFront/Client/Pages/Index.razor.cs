@@ -16,15 +16,12 @@ namespace DevLabFront.Client.Pages
 
         private DetalleFacturaModel Detalle = new DetalleFacturaModel();
         [Inject] public HttpClient httpClient { get; set; } = new HttpClient();
-        public decimal SubTotal { get; set; }
-        public decimal Impuesto { get; set; }
-        public decimal Total { get; set; }
         public List<string> Mensaje { get; set; } = new();
         public bool AbrirMensaje { get; set; } = false;
         public string? Titulo { get; set; }
         protected override async Task OnInitializedAsync()
         {
-            BaseAddressApi = await Http.GetStringAsync("Inicio/ObtenerUrl");
+            BaseAddressApi = await httpClient.GetStringAsync("Inicio/ObtenerUrl");
             await ObtenerClientes();
 
         }
@@ -33,7 +30,7 @@ namespace DevLabFront.Client.Pages
             try
             {
                 var request = JsonContent.Create(string.Empty);
-                var response = await Http.PostAsync("Inicio/ObtenerClientesAsync", request);
+                var response = await httpClient.PostAsync("Inicio/ObtenerClientesAsync", request);
                 if (response.IsSuccessStatusCode)
                 {
                     var lista = await response.Content.ReadAsStringAsync();
@@ -55,7 +52,7 @@ namespace DevLabFront.Client.Pages
             try
             {
                 var request = JsonContent.Create(string.Empty);
-                var response = await Http.PostAsync("Inicio/ObtenerProductosAsync", request);
+                var response = await httpClient.PostAsync("Inicio/ObtenerProductosAsync", request);
                 if (response.IsSuccessStatusCode)
                 {
                     var lista = await response.Content.ReadAsStringAsync();
@@ -92,7 +89,7 @@ namespace DevLabFront.Client.Pages
                 try
                 {
                     var request = JsonContent.Create(factura);
-                    var response = await Http.PostAsync("Inicio/GuardarFacturaAsync", request);
+                    var response = await httpClient.PostAsync("Inicio/GuardarFacturaAsync", request);
                     if (response.IsSuccessStatusCode)
                     {
                         var stringResponse = await response.Content.ReadAsStringAsync();
