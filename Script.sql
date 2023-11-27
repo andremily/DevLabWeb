@@ -50,3 +50,74 @@ BEGIN
     SELECT Id, NombreProducto, ImagenProducto, PrecioUnitario, ext
     FROM CatProductos;
 END;
+
+
+CREATE OR ALTER  PROCEDURE GuardarFactura 
+@FechaEmisionFactura DATETIME,
+@IdCliente INT,
+@NumeroFactura INT ,
+@NumeroTotalArticulos INT,
+@SubTotalFactura  DECIMAL(18, 2),
+@TotalImpuesto DECIMAL(18, 2) ,
+@TotalFactura DECIMAL(18, 2)
+AS
+BEGIN
+ SET NOCOUNT ON; 
+    INSERT INTO TblFacturas (FechaEmisionFactura, IdCliente, NumeroFactura, NumeroTotalArticulos, SubTotalFactura, TotalImpuesto, TotalFactura)
+    VALUES 
+    (@FechaEmisionFactura, @IdCliente, @NumeroFactura, @NumeroTotalArticulos, @SubTotalFactura, @TotalImpuesto, @TotalFactura);
+    SELECT SCOPE_IDENTITY() AS IdFactura;
+END;
+
+GO 
+CREATE OR ALTER PROCEDURE GuardarDetalleFactura 
+@IdFactura INT,
+@IdProducto INT,
+@CantidadDeProducto INT,
+@PrecioUnitarioProducto  DECIMAL(18, 2),
+@SubtotalProducto DECIMAL(18, 2),
+@Notas VARCHAR(200)
+AS
+BEGIN
+    INSERT INTO TblDetallesFactura(IdFactura, IdProducto, CantidadDeProducto, PrecioUnitarioProducto, SubtotalProducto, Notas)
+    VALUES 
+    (@IdFactura, @IdProducto, @CantidadDeProducto, @PrecioUnitarioProducto, @SubtotalProducto, @Notas);
+END;
+
+
+CREATE OR ALTER PROCEDURE ConsultarProductos
+AS
+BEGIN
+    SELECT
+        Id, 
+        NombreProducto, 
+        PrecioUnitario,
+        ext,
+        CONVERT(VARCHAR(MAX), CAST(ImagenProducto AS VARBINARY(MAX)), 1)  AS ImagenProducto
+    FROM
+        CatProductos;
+END;
+
+CREATE OR ALTER PROCEDURE ConsultaNumeroFactura 
+@NumeroFactura int = null,
+@IdCliente int = null
+AS
+BEGIN
+    SELECT NumeroFactura, FechaEmisionFactura, TotalFactura, IdCliente
+    FROM TblFacturas
+    Where 
+	 (@NumeroFactura IS NULL OR NumeroFactura = @NumeroFactura)
+        AND
+     (@IdCliente IS NULL OR IdCliente = @IdCliente)
+      
+    
+END;
+
+CREATE OR ALTER PROCEDURE ConsultaClientes
+AS
+BEGIN
+    SELECT Id, RazonSocial
+    FROM TblClientes;
+END;
+
+

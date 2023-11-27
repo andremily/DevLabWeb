@@ -123,9 +123,12 @@ namespace DevLabFront.Client.Pages
         {
             if (respuesta.Resultado)
             {
-                Titulo = "Alerta";
+                Titulo = "Operación Exitosa";
                 Mensaje.Add(respuesta.Mensaje);
                 AbrirMensaje = true;
+                Factura = new();
+                Detalle = new();
+                DetalleFactura = new();
             }
             else
             {

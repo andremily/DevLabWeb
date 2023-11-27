@@ -101,7 +101,7 @@ namespace DevLabWebApi.Services
                             cmd.Parameters.Add(new SqlParameter("@CantidadDeProducto", SqlDbType.Int) { Value = item.CantidadDeProducto });
                             cmd.Parameters.Add(new SqlParameter("@PrecioUnitarioProducto", SqlDbType.Decimal) { Value = item.PrecioUnitarioProducto });
                             cmd.Parameters.Add(new SqlParameter("@SubtotalProducto", SqlDbType.Decimal) { Value = item.SubtotalProducto });
-                            cmd.Parameters.Add(new SqlParameter("@Notas", SqlDbType.Decimal) { Value = item.Notas });
+                            cmd.Parameters.Add(new SqlParameter("@Notas", SqlDbType.VarChar) { Value = item.Notas });
                             cmd.ExecuteNonQuery();
                         }
                     }
