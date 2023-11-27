@@ -49,16 +49,19 @@
 
 .datos-totales {
     display: flex;
-    width: 100%
+    width: 100%;
 }
-.datos-totales>div {
-    width: 50%
-}
-.div-button {
-    display: flex;
-    padding: 5px;
-    justify-content: flex-end;
-}
-.div-button>button {
-  margin:5px;
-}
+
+    .datos-totales > .div-totales {
+        width: 70%;
+    }
+    .datos-totales > .totales {
+        width:30%;
+    }
+    .div-button {
+        margin-top:10px;
+        display: flex;
+        padding: 5px;
+        justify-content: flex-end;
+    }
+       

@@ -14,8 +14,8 @@
         <MatButton Unelevated="true" Icon="search" OnClick="@BuscarAsync">Buscar</MatButton>
     </div>
 </div>
-<div>
-    <MatTable Items="@Facturas" AllowSelection="true" Striped="true" RowClass="grid-productos">
+<div class="grid">
+    <MatTable Items="@Facturas" AllowSelection="true" Striped="true" RowClass="grid-productos" class="mat-elevation-z5">
         <MatTableHeader>
             <th>Número de Factura</th>
             <th>Fecha de Emision</th>

@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="">
-        <MatTable Items="@DetalleFactura" AllowSelection="true" Striped="true" RowClass="grid-productos">
+        <MatTable Items="@DetalleFactura" AllowSelection="true" Striped="true" RowClass="grid-productos" class="mat-elevation-z5">
             <MatTableHeader>
                 <th>Acciones</th>
                 <th>Producto</th>
@@ -58,7 +58,7 @@
         </MatTable>
     </div>
     <div class="datos-totales">
-        <div>
+        <div class="div-totales">
         </div>
             <div class="totales">
                 <div class="subtotal">
@@ -75,7 +75,7 @@
                 </div>
             </div>
     </div>
-      <div class="datos-totales">
+    <div class="datos-totales">
        <MatButton Unelevated="true" Icon="add" OnClick="@GuardarFacturaAsync"> Guardar </MatButton>
     </div>
 </div>
@@ -107,7 +107,7 @@
                 <MatTextField @bind-Value="@Detalle.Notas" Label="Nota"></MatTextField>
                 <ValidationMessage For="@(() =>Detalle.Notas)" />
             </div>
-            <MatDivider></MatDivider>
+          
             <div class="div-button">
        
                 <MatButton Unelevated="true" Type="button" OnClick="@(e => { AdicionProductos = false; })" Icon="cancel">Cancelar</MatButton>
