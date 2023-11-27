@@ -1,3 +1,5 @@
+----------------- TABLAS------------------------------------
+
 CREATE TABLE [dbo].[CatTipoCliente]
 (
     [ID] INT NOT NULL PRIMARY KEY,  
@@ -36,6 +38,17 @@ CREATE TABLE [dbo].[TblDetallesFactura]
 	FOREIGN KEY (IdFactura) REFERENCES TblFacturas(Id),
 	FOREIGN KEY (IdProducto) REFERENCES CatProductos(Id)
 )
+--------------------INSERT DE LAS TABLAS --------------------------------------------------------------------
+
+  INSERT INTO CatTipoCliente(ID, TipoCliente)VALUES(1, "Empresa");
+  INSERT INTO CatTipoCliente(ID, TipoCliente)VALUES(2, "Persona");
+
+  INSERT INTO TblClientes(Id, RazonSocial, IdTipoCliente, FechaCreacion, RFC)VALUES(1, "EMPRESA PRUEBA", 1,GETDATE(),"PRUEBA" );
+  INSERT INTO TblClientes(Id, RazonSocial, IdTipoCliente, FechaCreacion, RFC)VALUES(2, "EMPRESA PRUEBA2", 1,GETDATE(),"PRUEBA 2" );
+  INSERT INTO TblClientes(Id, RazonSocial, IdTipoCliente, FechaCreacion, RFC)VALUES(3, "JOHANA AGUIRRE", 2,GETDATE(),"JOHANA" );
+
+
+----------------------PROCEDIMIENTOS ALMACENADOS-------------------------------------------------------------
 
 CREATE PROCEDURE ConsultaClientes
 AS
