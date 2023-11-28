@@ -38,6 +38,16 @@ CREATE TABLE [dbo].[TblDetallesFactura]
 	FOREIGN KEY (IdFactura) REFERENCES TblFacturas(Id),
 	FOREIGN KEY (IdProducto) REFERENCES CatProductos(Id)
 )
+
+
+CREATE TABLE [dbo].[CatProductos] (
+    [Id]             INT             NOT NULL,
+    [NombreProducto] VARCHAR (50)    NOT NULL,
+    [ImagenProducto] IMAGE           NOT NULL,
+    [PrecioUnitario] DECIMAL (18, 2) NOT NULL,
+    [ext]            VARCHAR (5)     NOT NULL
+);
+
 --------------------INSERT DE LAS TABLAS --------------------------------------------------------------------
 
   INSERT INTO CatTipoCliente(ID, TipoCliente)VALUES(1, "Empresa");
@@ -47,6 +57,15 @@ CREATE TABLE [dbo].[TblDetallesFactura]
   INSERT INTO TblClientes(Id, RazonSocial, IdTipoCliente, FechaCreacion, RFC)VALUES(2, "EMPRESA PRUEBA2", 1,GETDATE(),"PRUEBA 2" );
   INSERT INTO TblClientes(Id, RazonSocial, IdTipoCliente, FechaCreacion, RFC)VALUES(3, "JOHANA AGUIRRE", 2,GETDATE(),"JOHANA" );
 
+INSERT INTO CatProductos (Id, NombreProducto, ImagenProducto, PrecioUnitario, ext)
+VALUES
+(1, 'Producto1', (SELECT BulkColumn FROM OPENROWSET(BULK 'D:\RutaImagen\portada.jpg', SINGLE_BLOB) as Imagen), 10.99, 'jpg');
+INSERT INTO CatProductos (Id, NombreProducto, ImagenProducto, PrecioUnitario, ext)
+VALUES
+(2, 'Producto2', (SELECT BulkColumn FROM OPENROWSET(BULK 'D:\RutaImagen\portada.jpg', SINGLE_BLOB) as Imagen), 15.99, 'jpg');
+INSERT INTO CatProductos (Id, NombreProducto, ImagenProducto, PrecioUnitario, ext)
+VALUES
+(3, 'Producto3', (SELECT BulkColumn FROM OPENROWSET(BULK 'D:\RutaImagen\portada.jpg', SINGLE_BLOB) as Imagen), 20.99, 'jpg');
 
 ----------------------PROCEDIMIENTOS ALMACENADOS-------------------------------------------------------------
 

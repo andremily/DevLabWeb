@@ -111,14 +111,14 @@ namespace DevLabFront.Server.Controllers
         }
 
         [HttpPost("ConsultaFacturaAsync")]
-        public async Task<List<FacturaModel>> ConsultaFacturaAsync(FacturaCompleta factura)
+        public async Task<List<FacturaModel>> ConsultaFacturaAsync(FiltroModel filtro)
         {
             string responseFactura;
 
             try
             {
                 var baseAddressApi = _configuration.GetSection("UrlApi").Value;
-                var request = JsonContent.Create(factura);
+                var request = JsonContent.Create(filtro);
                 var response = await httpClient.PostAsync($"{baseAddressApi}Factura/ConsultaFactura", request);
                 if (response.IsSuccessStatusCode)
                 {

@@ -37,7 +37,7 @@ namespace DevLabWebApi.Services
                                 NumeroFactura = reader.GetInt32(0),
                                 FechaEmisionFactura = reader.GetDateTime(1),
                                 TotalFactura = reader.GetDecimal(2),
-                                IdCliente = reader.GetInt16(3)
+                                IdCliente = reader.GetInt32(3)
                             };
 
                             facturas.Add(factura);

@@ -8,7 +8,11 @@
     </MatRadioGroup>
 </div>
 <div>
-    <MatTextField @bind-Value="@RequestFiltro.IdCliente" Disabled=@DesHabilitadoCliente Label="Id Cliente" Outlined="true"></MatTextField>
+      <MatSelectValue @bind-Value="@RequestFiltro.IdCliente" Items="@ListaClientes" ValueSelector="@(i=>i.Id)" Label="Cliente">
+                <ItemTemplate>
+                    <span>@context?.RazonSocial</span>
+                </ItemTemplate>
+            </MatSelectValue>
     <MatTextField @bind-Value="@RequestFiltro.NumeroFactura" Disabled=@DesHabilitadoFactura Label="Número Factura" Outlined="true"></MatTextField>
     <div class="btn">
         <MatButton Unelevated="true" Icon="search" OnClick="@BuscarAsync">Buscar</MatButton>
